@@ -1,4 +1,4 @@
-function h= DJB31MA( chave, seed)
+function h= DJB31MA(chave, seed)
 % implementação da hash function DJB31MA com base no algoritmo obtido
 % no resumo 2014(PJF) que está em C
 %
