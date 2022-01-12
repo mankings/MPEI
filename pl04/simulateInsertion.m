@@ -1,4 +1,4 @@
-function [hCodes, count, collisions, time] = simulateInsertion(words, tablesize, func, arg)
+function [hCodes, contagem, collisions, time] = simulateInsertion(words, tablesize, func, arg)
 %simulateInsertion
 %   Função auxiliar ao exercício, simula a inserção das keys na chaining
 %   hash table.
@@ -11,18 +11,20 @@ function [hCodes, count, collisions, time] = simulateInsertion(words, tablesize,
 %       hashstring - hash table size
 %       DJB31MA - seed
 
-% isto provavelmente está na merda
     tic;
-    n = tablesize; % table size
-    hCodes = zeros(1, n);
-    count = zeros(1, n);
-    for i = 1:length(words)
+    key = words{1};
+    hCode = mod(func(key, arg), tablesize);
+    hCodes = hCode;
+    contagem = zeros(n, 1);
+    for i = 2:length(words)
         key = words{i};
-        hCode = mod(func(key, arg), n);
-        hCodes(key) = hCode; % a)
-        count(hCode) = count(hCode) + 1; % b)
+        hCode = mod(func(key, arg), tablesize);
+        if ~ismember(hCodes, hCode)
+            hCodes = [hCodes; hCode];
+        end
+        contagem(hCode) = contagem(hCode) + 1;
     end
-    collisions = sum(sum(count) - 1); % c)
-    time = toc; % d)
+    collisions = sum(sum(contagem) - 1);
+    time = toc;
 end
 
